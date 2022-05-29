@@ -5,16 +5,15 @@ from app_coder import views
 app_name='app_coder'
 urlpatterns = [
     path('', views.index, name='Home'),
-    path('profesors', views.profesors, name='Profesors'),
-    # path('courses', views.courses, name='course-list'),
-    path('students', views.students, name='Students'),
-    path('homeworks', views.homeworks, name='Homeworks'),
+    path('seeds', views.seeds, name='Seeds'),
+    path('insurance', views.insurance, name='Insurance'),
+  
     path('formHTML', views.form_hmtl),
-    path('course-django-forms', views.course_forms_django, name='CourseDjangoForms'),
-    path('profesor-django-forms', views.profesor_forms_django, name='ProfesorDjangoForms'),
-    path('profesor/<int:pk>/update', views.update_profesor, name='UpdateProfesor'),
-    path('profesor/<int:pk>/delete', views.delete_profesor, name='DeleteProfesor'),
-    path('homework-django-forms', views.homework_forms_django, name='HomeworkDjangoForms'),
+    path('pipes-django-forms', views.pipes_forms_django, name='pipes_django_forms'),
+    path('seeds_django_forms', views.seeds_forms_django, name='seeds_django_forms'),
+    path('seeds/<int:pk>/update', views.update_seeds, name='update_seeds'),
+    path('seeds/<int:pk>/delete', views.delete_seeds, name='delete_seeds'),
+  
     path('search', views.search, name='Search'),
 
 

@@ -1,0 +1,17 @@
+{% extends "app_coder/index.html" %}
+{% load static %}
+{% block app_coder_content %}
+
+<h2>Pipes's List</h2>
+<a class="card_custom" href="{% url 'app_coder:pipes_django_form' %}">Create new Pipe</a>
+<hr></hr>
+<ul>
+    {% for pipe in pipes %}
+        <li>
+            Bong: {{pipes.name}}
+            -- Price: {pipes.price}}
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

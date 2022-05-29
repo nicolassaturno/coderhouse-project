@@ -1,38 +1,32 @@
 from django.db import models
 
 
-class Course(models.Model):
+class Seed(models.Model):
     name = models.CharField(max_length=40)
     code = models.IntegerField()
+    specimen = models.CharField(max_length=40)
+    taste = models.CharField(max_length=40)
+    price = models.IntegerField()
 
     def __str__(self):
-        return f'{self.name} course --'
+        return f'{self.name} seed --'
 
 
-class Student(models.Model):
+class Insurance(models.Model):
     name = models.CharField(max_length=40)
-    last_name = models.CharField(max_length=40)
-    email = models.EmailField()
+    code = models.IntegerField()
+    price = models.IntegerField()
 
     def __str__(self):
-        return f'Nombre del Estudiante: {self.name} {self.last_name} -- e-mail: {self.email}'
+        return f'Producto {self.name} --'
 
 
-class Profesor(models.Model):
+class Pipes(models.Model):
     name = models.CharField(max_length=40)
-    last_name = models.CharField(max_length=40)
-    email = models.EmailField()
-    profession = models.CharField(max_length=40)
+    price = models.IntegerField()
+  
 
     def __str__(self):
-        return f'Nombre del Profesor: {self.name} {self.last_name} -- e-mail: {self.email} -- profesión: {self.profession} --'
+        return f'Bongs: {self.name} tipo: {self.model} --'
 
 
-class Homework(models.Model):
-    name = models.CharField(max_length=40)
-    due_date = models.DateField()
-    is_delivered = models.BooleanField()
-
-    def __str__(self):
-        is_delivered = 'Si' if self.is_delivered else 'No'
-        return f'Nombre de la Entrega: {self.name} -- Fecha de entrega: {self.due_date} -- Entregado: {is_delivered}'

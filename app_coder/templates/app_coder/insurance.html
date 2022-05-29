@@ -1,0 +1,16 @@
+{% extends "app_coder/index.html" %}
+{% load static %}
+{% block app_coder_content %}
+
+<h2>Insurance List</h2>
+<hr></hr>
+<ul>
+    {% for insurance in insurance %}
+        <li>
+            Insurance: {{insurance.name}} -- Code: {{insurance.code}}
+         
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q
 from django.forms.models import model_to_dict
 
-from app_coder.models import Course, Student, Profesor, Homework
+from app_coder.models import Seed, Insurance, Pipes
 from app_coder.forms import CourseForm, ProfesorForm, HomeworkForm
 
 
@@ -10,11 +10,11 @@ def index(request):
     return render(request, "app_coder/home.html")
 
 
-def profesors(request):
-    profesors = Profesor.objects.all()
+def seeds(request):
+    seeds = Seed.objects.all()
 
     context_dict = {
-        'profesors': profesors
+        'seeds': seeds
     }
 
     return render(
@@ -38,32 +38,21 @@ def courses(request):
     )
 
 
-def students(request):
-    students = Student.objects.all()
+def insurance(request):
+    insurance = Insurance.objects.all()
 
     context_dict = {
-        'students': students
+        'insurance': insurance
     }
 
     return render(
         request=request,
         context=context_dict,
-        template_name="app_coder/students.html"
+        template_name="app_coder/insurance.html"
     )
 
 
-def homeworks(request):
-    homeworks = Homework.objects.all()
 
-    context_dict = {
-        'homeworks': homeworks
-    }
-
-    return render(
-        request=request,
-        context=context_dict,
-        template_name="app_coder/homeworks.html"
-    )
 
 
 def form_hmtl(request):
@@ -89,17 +78,19 @@ def form_hmtl(request):
     )
 
 
-def course_forms_django(request):
+def pipes_forms_django(request):
     if request.method == 'POST':
-        course_form = CourseForm(request.POST)
-        if course_form.is_valid():
-            data = course_form.cleaned_data
-            course = Course(name=data['name'], code=data['code'])
-            course.save()
+        pipes_form = pipes_form(request.POST)
+        if pipes_form.is_valid():
+            data = pipes_form.cleaned_data
+            pipes = Pipes(
+            name=data['name'],
+            price=data['price']),
+            Pipes.save()
 
-            courses = Course.objects.all()
+            pipes = Pipes.objects.all()
             context_dict = {
-                'courses': courses
+                'pipes': pipes
             }
             return render(
                 request=request,
@@ -118,91 +109,93 @@ def course_forms_django(request):
     )
 
 
-def profesor_forms_django(request):
+def seeds_form_django(request):
     if request.method == 'POST':
-        profesor_form = ProfesorForm(request.POST)
-        if profesor_form.is_valid():
-            data = profesor_form.cleaned_data
-            profesor = Profesor(
+        seeds_form = seeds_form(request.POST)
+        if seeds_form.is_valid():
+            data = seeds_form.cleaned_data
+            seed = Seed(
                 name=data['name'],
-                last_name=data['last_name'],
-                email=data['email'],
-                profession=data['profession'],
+                code=data['code'],
+                specimen=data['specimen'],
+                taste=data['taste'],
+                price=data['price'],
             )
-            profesor.save()
+            seed.save()
 
-            profesors = Profesor.objects.all()
+            seeds = Seed.objects.all()
             context_dict = {
-                'profesors': profesors
+                'seeds': seeds
             }
             return render(
                 request=request,
                 context=context_dict,
-                template_name="app_coder/profesors.html"
+                template_name="app_coder/seeds.html"
             )
 
-    profesor_form = ProfesorForm(request.POST)
+    seeds_form = seeds_form(request.POST)
     context_dict = {
-        'profesor_form': profesor_form
+        'seeds_form': seeds_form
     }
     return render(
         request=request,
         context=context_dict,
-        template_name='app_coder/profesor_django_forms.html'
+        template_name='app_coder/seeds_django_form.html'
     )
 
-def update_profesor(request, pk: int):
-    profesor = Profesor.objects.get(pk=pk)
+def update_seeds(request, pk: int):
+    seed = Seed.objects.get(pk=pk)
 
     if request.method == 'POST':
-        profesor_form = ProfesorForm(request.POST)
-        if profesor_form.is_valid():
-            data = profesor_form.cleaned_data
-            profesor.name = data['name']
-            profesor.last_name = data['last_name']
-            profesor.email = data['email']
-            profesor.profession = data['profession']
-            profesor.save()
+        seeds_form = seeds_form(request.POST)
+        if seeds_form.is_valid():
+            data = seeds_form.cleaned_data
+            seed.name = data['name']
+            seed.code = data['code']
+            seed.specimen = data['specimen']
+            seed.taste = data['taste']
+            seed.price = data['price']
+            seed.save()
 
-            profesors = Profesor.objects.all()
+            seeds = Seed.objects.all()
             context_dict = {
-                'profesors': profesors
+                'seeds': seeds
             }
             return render(
                 request=request,
                 context=context_dict,
-                template_name="app_coder/profesors.html"
+                template_name="app_coder/seeds.html"
             )
 
-    profesor_form = ProfesorForm(model_to_dict(profesor))
+    seeds_form = seeds_form(model_to_dict(seeds))
     context_dict = {
-        'profesor': profesor,
-        'profesor_form': profesor_form,
+        'seed': seeds,
+        'seeds_form': seeds_form,
     }
     return render(
         request=request,
         context=context_dict,
-        template_name='app_coder/profesor_form.html'
+        template_name='app_coder/seeds_form.html'
     )
 
 
-def delete_profesor(request, pk: int):
-    profesor = Profesor.objects.get(pk=pk)
+def delete_seeds(request, pk: int):
+    seed = Seed.objects.get(pk=pk)
     if request.method == 'POST':
-        profesor.delete()
+        seed.delete()
 
-        profesors = Profesor.objects.all()
+        seeds = Seed.objects.all()
         context_dict = {
-            'profesors': profesors
+            'seeds': seeds
         }
         return render(
             request=request,
             context=context_dict,
-            template_name="app_coder/profesors.html"
+            template_name="app_coder/seeds.html"
         )
 
     context_dict = {
-        'profesor': profesor,
+        'seeds': seeds,
     }
     return render(
         request=request,
@@ -211,38 +204,8 @@ def delete_profesor(request, pk: int):
     )
 
 
-def homework_forms_django(request):
-    if request.method == 'POST':
-        homework_form = HomeworkForm(request.POST)
-        if homework_form.is_valid():
-            data = homework_form.cleaned_data
-            homework = Homework(
-                name=data['name'],
-                due_date=data['due_date'],
-                is_delivered=data['is_delivered'],
-            )
-            homework.save()
 
-            homeworks = Homework.objects.all()
-            context_dict = {
-                'homeworks': homeworks
-            }
-            return render(
-                request=request,
-                context=context_dict,
-                template_name="app_coder/homeworks.html"
-            )
-
-    homework_form = HomeworkForm(request.POST)
-    context_dict = {
-        'homework_form': homework_form
-    }
-    return render(
-        request=request,
-        context=context_dict,
-        template_name='app_coder/homework_django_forms.html'
-    )
-
+         
 
 def search(request):
     context_dict = dict()
